@@ -1,0 +1,46 @@
+﻿@model ShoppingCartViewModel
+
+@if (Model.ShoppingCart.ShoppingCartItems.Count == 0)
+	{
+<h2>Twój koszyk jest pusty.</h2>
+	}
+            else { 
+<h2>Twój koszyk</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ilość</th>
+            <th>Produkt</th>
+            <th class="text-right">Cena</th>
+            <th class="text-right">Razem</th>
+            <th class="text-right"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ShoppingCart.ShoppingCartItems)
+        {
+        <tr>
+            <td class="text-center">@item.Amount</td>
+            <td class="text-left">@item.Product.Name</td>
+            <td class="text-right">@item.Product.Price.ToString("c")</td>
+            <td class="text-right">
+                @((item.Amount * item.Product.Price).ToString("c"))
+            </td>
+            <td class="text-right"><a class="btn font-weight-bold" asp-route-productId="@item.Product.ProductId" asp-action="RemoveFromShoppingCart">-</a></td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="text-right">Cena końcowa:</td>
+            <td class="text-right">
+                @Model.ShoppingCartTotal.ToString("c")
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout" >Zrealizuj</a>
+</div>
+}
